@@ -174,7 +174,7 @@ function proc_vars {
         top_lvl=$(top_level_parent_pid $node)
 
         # Looking for persona-node installations and performing actions
-        personadir=`locate -b "\persona-mainnet"`
+        personadir=`locate -b -l 1 "\persona-mainnet"`
 
         # Getting the parent of the install path
         parent=`dirname $personadir 2>&1`
