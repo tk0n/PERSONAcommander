@@ -682,7 +682,7 @@ function inst_persona {
         npm install 2>/dev/null
 }
 
-# Create ARK user and DB
+# Create Persona user and DB
 function create_db {
         #check if PG is running here if not Start.
         if [ -z "$pgres" ]; then
@@ -736,7 +736,7 @@ function user_exists {
         fi
 }
 
-# Drop ARK DB
+# Drop Persona DB
 function drop_db {
         # check if it's running and start if not.
         if [ -z "$pgres" ]; then
@@ -757,7 +757,7 @@ function drop_user {
         fi
 }
 
-function update_ark {
+function update_persona {
     if [ "$UP_TO_DATE" -ne 1 ]; then
             cd $personadir
 #            forever stop app.js
@@ -931,7 +931,7 @@ three(){
                     echo -e "$(green "       System PID: $node, Forever PID $forever_process")"
                     echo -e "$(green "       Directory: $personadir")\n"
             echo -e "\n$(green "             Updating Persona Node...")\n"
-            update_ark
+            update_persona
                     echo -e "$(green "                Restarting...")"
                     forever restart $forever_process >&- 2>&-
                     echo -e "\n$(green "    ✔ Persona Node was successfully restarted")\n"
@@ -939,7 +939,7 @@ three(){
         else
                     echo -e "\n$(red "       ✘ Persona Node process is not running")\n"
             echo -e "$(green "            Updating Persona Node...")\n"
-            update_ark
+            update_persona
             forever start app.js --genesis genesisBlock.mainnet.json --config config.mainnet.json >&- 2>&-
             echo -e "$(green "    ✔ Persona Node was successfully started")\n"
                     pause
@@ -961,10 +961,10 @@ four(){
                 echo -e "\n$(green "            Stopping Persona Node...")\n"
         cd $personadir
         forever stop $forever_process >&- 2>&-
-        echo -e "$(green "             Dropping ARK DB...")\n"
+        echo -e "$(green "             Dropping Persona DB...")\n"
                 drop_db
         drop_user
-        echo -e "$(green "             Creating ARK DB...")\n"
+        echo -e "$(green "             Creating Persona DB...")\n"
         create_db
 
         # Here should come the snap choice
@@ -975,10 +975,10 @@ four(){
                 pause
         else
                 echo -e "\n$(red "       ✘ Persona Node process is not running")\n"
-                echo -e "$(green "             Dropping ARK DB...")\n"
+                echo -e "$(green "             Dropping Persona DB...")\n"
         drop_db
         drop_user
-        echo -e "$(green "             Creating ARK DB...")\n"
+        echo -e "$(green "             Creating Persona DB...")\n"
         create_db
 
         # Here should come the snap choice
@@ -1137,7 +1137,7 @@ log(){
     echo -e "\n$(yellow " Use Ctrl+C to return to menu")\n"
     proc_vars
     trap : INT
-    tail -f $personadir/logs/ark.log
+    tail -f $personadir/logs/persona.log
 #pause
 }
 
