@@ -75,7 +75,7 @@ fi
 
 EDIT=nano
 
-GIT_ORIGIN=mainnet
+GIT_ORIGIN=persona-mainnet
 
 LOC_SERVER="http://localhost:4102"
 
@@ -761,17 +761,17 @@ function update_persona {
     if [ "$UP_TO_DATE" -ne 1 ]; then
             cd $personadir
 #            forever stop app.js
-        TMP_PASS=$(jq -r '.forging.secret | @csv' config.$GIT_ORIGIN.json)
+        TMP_PASS=$(jq -r '.forging.secret | @csv' config.mainnet.json)
         mv config.mainnet.json ../
             git pull origin $GIT_ORIGIN
         git checkout $GIT_ORIGIN
             npm install
         sleep 1
 
-        if [ ! -e config.$GIT_ORIGIN.json ]; then
-            mv ../config.$GIT_ORIGIN.json .
+        if [ ! -e config.mainnet.json ]; then
+            mv ../config.mainnet.json .
         else
-            jq -r '.forging.secret = ['"$TMP_PASS"']' config.$GIT_ORIGIN.json > config.$GIT_ORIGIN.tmp && mv config.$GIT_ORIGIN.tmp config.$GIT_ORIGIN.json
+            jq -r '.forging.secret = ['"$TMP_PASS"']' config.mainnet.json > config.mainnet.tmp && mv config.mainnet.tmp config.mainnet.json
         fi
 
         unset TMP_PASS
@@ -793,7 +793,7 @@ function secret {
     read -e -r -p ": " secret
 
     cd $personadir
-    jq -r ".forging.secret = [\"$secret\"]" config.$GIT_ORIGIN.json > config.$GIT_ORIGIN.tmp && mv config.$GIT_ORIGIN.tmp config.$GIT_ORIGIN.json
+    jq -r ".forging.secret = [\"$secret\"]" config.mainnet.json > config.mainnet.tmp && mv config.mainnet.tmp config.mainnet.json
 }
 
 ### Menu Options ###
